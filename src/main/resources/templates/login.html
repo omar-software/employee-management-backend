@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<!--
+    هذا ملف صفحة تسجيل الدخول.
+    موجود داخل:
+    src/main/resources/templates/login.html
+
+    يتم عرضه عندما يفتح المستخدم الرابط:
+    GET /login
+
+    والـ AuthController يرجع هذه الصفحة عن طريق:
+    return "login";
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login - Employee Management</title>
+    <meta charset="UTF-8">
+
+    <!-- يجعل الصفحة مناسبة للموبايل والشاشات الصغيرة -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /*
+            يجعل حساب العرض والارتفاع أسهل.
+            يعني padding و border يدخلون ضمن عرض العنصر.
+        */
+        * {
+            box-sizing: border-box;
+        }
+
+        /*
+            تنسيق الصفحة كاملة:
+            - خلفية متدرجة
+            - توسيط كرت تسجيل الدخول في منتصف الشاشة
+        */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #111827, #1f2937, #374151);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111827;
+        }
+
+        /*
+            غلاف عام للصفحة حتى نعطي padding مناسب حول الكرت
+        */
+        .page-wrapper {
+            width: 100%;
+            padding: 24px;
+        }
+
+        /*
+            كرت تسجيل الدخول الأبيض
+        */
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 36px;
+            border-radius: 18px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        /*
+            الشعار الصغير أعلى الكرت
+        */
+        .app-badge {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 18px;
+            border-radius: 16px;
+            background-color: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /*
+            عنوان الصفحة
+        */
+        h2 {
+            text-align: center;
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        /*
+            النص الصغير تحت العنوان
+        */
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-top: 8px;
+            margin-bottom: 26px;
+            font-size: 14px;
+        }
+
+        /*
+            تنسيق عام لرسائل التنبيه
+        */
+        .alert {
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /*
+            رسالة الخطأ عند إدخال username أو password غلط
+        */
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /*
+            رسالة النجاح بعد تسجيل الخروج
+        */
+        .success {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        /*
+            مسافة بين كل حقل والثاني
+        */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        /*
+            تنسيق أسماء الحقول
+        */
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        /*
+            تنسيق حقول الإدخال
+        */
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        /*
+            تأثير عند الضغط داخل الحقل
+        */
+        input:focus {
+            border-color: #111827;
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.12);
+        }
+
+        /*
+            زر تسجيل الدخول
+        */
+        .login-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 13px;
+            background-color: #111827;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        /*
+            تأثير عند تمرير الماوس فوق الزر
+        */
+        .login-btn:hover {
+            background-color: #374151;
+        }
+
+        /*
+            تأثير بسيط عند الضغط على الزر
+        */
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        /*
+            معلومات الحساب التجريبي
+        */
+        .demo-info {
+            margin-top: 22px;
+            padding: 13px;
+            border-radius: 10px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .demo-info strong {
+            color: #111827;
+        }
+
+        /*
+            النص الموجود أسفل الكرت
+        */
+        .footer-text {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        /*
+            تنسيق خاص للشاشات الصغيرة مثل الموبايل
+        */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 28px;
+                border-radius: 14px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- غلاف الصفحة -->
+<div class="page-wrapper">
+
+    <!-- كرت تسجيل الدخول -->
+    <div class="login-card">
+
+        <!-- شعار مختصر لاسم التطبيق Employee Management -->
+        <div class="app-badge">EM</div>
+
+        <!-- عنوان الصفحة -->
+        <h2>Welcome Back</h2>
+
+        <!-- وصف قصير -->
+        <p class="subtitle">Sign in to manage your employees</p>
+
+        <!--
+            تظهر هذه الرسالة إذا فشل تسجيل الدخول.
+
+            Spring Security عند فشل login يحوّل المستخدم إلى:
+            /login?error
+
+            لذلك نستخدم:
+            th:if="${param.error}"
+
+            param.error معناها: هل يوجد query parameter اسمه error؟
+        -->
+        <div th:if="${param.error}" class="alert error">
+            Invalid username or password.
+        </div>
+
+        <!--
+            تظهر هذه الرسالة بعد تسجيل الخروج.
+
+            Spring Security بعد logout يحوّل المستخدم إلى:
+            /login?logout
+
+            لذلك نستخدم:
+            th:if="${param.logout}"
+        -->
+        <div th:if="${param.logout}" class="alert success">
+            You have been logged out successfully.
+        </div>
+
+        <!--
+            هذا الفورم يرسل بيانات تسجيل الدخول إلى:
+            POST /login
+
+            هذا الرابط لا نعمل له Controller يدويًا.
+            Spring Security يستقبله تلقائيًا ويتحقق من المستخدم.
+
+            th:action="@{/login}" تعني:
+            Thymeleaf ينشئ الرابط الصحيح /login
+        -->
+        <form th:action="@{/login}" method="post">
+
+            <!--
+                حقل اسم المستخدم.
+
+                مهم جدًا أن يكون:
+                name="username"
+
+                لأن Spring Security يبحث افتراضيًا عن parameter اسمه username.
+            -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username"
+                       type="text"
+                       name="username"
+                       placeholder="Enter your username"
+                       autocomplete="username"
+                       required>
+            </div>
+
+            <!--
+                حقل كلمة المرور.
+
+                مهم جدًا أن يكون:
+                name="password"
+
+                لأن Spring Security يبحث افتراضيًا عن parameter اسمه password.
+            -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password"
+                       type="password"
+                       name="password"
+                       placeholder="Enter your password"
+                       autocomplete="current-password"
+                       required>
+            </div>
+
+            <!-- زر إرسال الفورم -->
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <!--
+            معلومات تجريبية للمشروع.
+            فقط للـ Portfolio أو أثناء التطوير.
+            في مشروع حقيقي لا نعرض كلمة المرور للمستخدم.
+        -->
+        <div class="demo-info">
+            Demo account:<br>
+            <strong>Username:</strong> admin &nbsp; | &nbsp;
+            <strong>Password:</strong> 1234
+        </div>
+
+        <!-- نص أسفل الكرت -->
+        <div class="footer-text">
+            Employee Management API &copy; 2026
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
