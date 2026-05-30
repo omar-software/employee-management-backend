@@ -219,3 +219,9 @@ Current status:
 - Duplicate email validation is working
 - Swagger documentation is working
 - Angular frontend integration is working
+
+## License
+
+This project is licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file for details.
