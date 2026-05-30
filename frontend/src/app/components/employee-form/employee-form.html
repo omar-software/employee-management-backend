@@ -1,0 +1,79 @@
+<section class="form-card">
+  <h1>
+    @if (editingEmployeeId === null) {
+      Add Employee
+    } @else {
+      Edit Employee
+    }
+  </h1>
+
+  <p>
+    @if (editingEmployeeId === null) {
+      Create a new employee using Spring Boot API.
+    } @else {
+      Update employee using Spring Boot API.
+    }
+  </p>
+
+  @if (message) {
+    <div class="success-message">{{ message }}</div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  <label>First Name</label>
+  <input
+    type="text"
+    name="firstName"
+    placeholder="First name"
+    minlength="2"
+    required
+    [(ngModel)]="employee.firstName"
+  >
+  <small>Minimum 2 characters</small>
+
+  <label>Last Name</label>
+  <input
+    type="text"
+    name="lastName"
+    placeholder="Last name"
+    minlength="2"
+    required
+    [(ngModel)]="employee.lastName"
+  >
+  <small>Minimum 2 characters</small>
+
+  <label>Email</label>
+  <input
+    type="email"
+    name="email"
+    placeholder="email@example.com"
+    required
+    [(ngModel)]="employee.email"
+  >
+  <small>Example: user@example.com</small>
+
+  <div class="form-actions">
+    <button
+      type="button"
+      class="secondary-btn"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="button"
+      class="primary-btn"
+      (click)="onSave()"
+    >
+      @if (editingEmployeeId === null) {
+        Save Employee
+      } @else {
+        Update Employee
+      }
+    </button>
+  </div>
+</section>

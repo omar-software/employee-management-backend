@@ -1,0 +1,41 @@
+{
+  "name": "employee-management-frontend",
+  "version": "0.0.0",
+"scripts": {
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test",
+  "selenium:login": "node selenium-tests/login.test.js",
+  "selenium:logout": "node selenium-tests/logout.test.js",
+  "selenium:add": "node selenium-tests/add-employee.test.js",
+  "selenium:edit": "node selenium-tests/edit-employee.test.js",
+  "selenium:delete": "node selenium-tests/delete-employee.test.js",
+  "selenium:negative-login": "node selenium-tests/negative-login.test.js",
+  "selenium:duplicate-email": "node selenium-tests/duplicate-email.test.js",
+  "selenium:all": "npm.cmd run selenium:login && npm.cmd run selenium:logout && npm.cmd run selenium:add && npm.cmd run selenium:edit && npm.cmd run selenium:delete && npm.cmd run selenium:negative-login && npm.cmd run selenium:duplicate-email"
+},
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.11",
+    "@angular/cli": "^21.2.11",
+    "@angular/compiler-cli": "^21.2.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "selenium-webdriver": "^4.44.0",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}

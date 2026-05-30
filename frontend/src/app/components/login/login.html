@@ -1,0 +1,25 @@
+<section class="login-card">
+  <h1>Login</h1>
+  <p>Please login to manage employees.</p>
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  <input
+    type="text"
+    name="username"
+    placeholder="Username"
+    [(ngModel)]="loginRequest.username"
+  >
+
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+  [(ngModel)]="loginRequest.password"
+  (keyup.enter)="onLogin()"
+>
+
+  <button type="button" (click)="onLogin()">Login</button>
+</section>

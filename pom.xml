@@ -12,9 +12,9 @@
 	</parent>
 
 	<groupId>com.omar</groupId>
-	<artifactId>employee-management-api</artifactId>
+	<artifactId>spring-boot-employee-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>employee-management-api</name>
+	<name>spring-boot-employee-management</name>
 	<description>Employee Management API with Spring Boot and MariaDB</description>
 
 	<properties>

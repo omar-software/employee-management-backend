@@ -1,0 +1,104 @@
+<section class="hero">
+  <h1>Employee Management</h1>
+  <p>Manage employees using Angular frontend and Spring Boot backend.</p>
+</section>
+
+<section class="dashboard">
+  <div class="dashboard-card">
+    <span>Total Employees</span>
+    <strong>{{ totalEmployees }}</strong>
+  </div>
+
+  <div class="dashboard-card">
+    <span>Search Results</span>
+    <strong>{{ searchResultsCount }}</strong>
+  </div>
+
+  <div class="dashboard-card">
+    <span>Last Employee</span>
+    <strong>{{ lastEmployeeName }}</strong>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-header">
+    <h2>Employees</h2>
+    <button type="button" (click)="onRefresh()">Refresh</button>
+  </div>
+
+  <p class="count">Employees count: {{ filteredEmployees.length }}</p>
+
+  @if (message) {
+    <div class="success-message">{{ message }}</div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  <input
+    class="search-input"
+    type="text"
+    placeholder="Search employees by name or email..."
+    [(ngModel)]="searchText"
+    (ngModelChange)="onSearchChange()"
+  >
+
+  @if (filteredEmployees.length === 0) {
+    <div class="empty-state">
+      <h3>No employees found</h3>
+      <p>Try another search or add a new employee.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="employees-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (employee of paginatedEmployees; track employee.id) {
+            <tr>
+              <td>{{ employee.id }}</td>
+              <td>{{ employee.firstName }}</td>
+              <td>{{ employee.lastName }}</td>
+              <td>{{ employee.email }}</td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="edit-btn" (click)="onEdit(employee)">Edit</button>
+                  <button type="button" class="delete-btn" (click)="onDelete(employee.id)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button
+        type="button"
+        (click)="previousPage()"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+      <button
+        type="button"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+  }
+</section>

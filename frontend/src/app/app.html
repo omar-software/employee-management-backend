@@ -1,0 +1,41 @@
+<div class="page">
+  <app-navbar
+    [isLoggedIn]="isLoggedIn"
+    [username]="loggedInUsername"
+    (loginClicked)="clearMessages()"
+    (logoutClicked)="logout()"
+    (employeesClicked)="showEmployees()"
+    (addEmployeeClicked)="showAddEmployee()"
+  ></app-navbar>
+
+  <main class="content">
+    @if (!isLoggedIn) {
+      <app-login
+        [errorMessage]="errorMessage"
+        (loginClicked)="login($event)"
+      ></app-login>
+    }
+
+    @if (isLoggedIn && currentPage === 'employees') {
+      <app-employees
+        [employees]="employees"
+        [message]="message"
+        [errorMessage]="errorMessage"
+        (refreshClicked)="loadEmployees()"
+        (editClicked)="startEditEmployee($event)"
+        (deleteClicked)="deleteEmployee($event)"
+      ></app-employees>
+    }
+
+    @if (isLoggedIn && currentPage === 'addEmployee') {
+      <app-employee-form
+        [employee]="newEmployee"
+        [editingEmployeeId]="editingEmployeeId"
+        [message]="message"
+        [errorMessage]="errorMessage"
+        (cancelClicked)="showEmployees()"
+        (saveClicked)="saveEmployee()"
+      ></app-employee-form>
+    }
+  </main>
+</div>
